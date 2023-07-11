@@ -28,6 +28,8 @@ public class CoffeeOrderConsumerSchemaRegistry {
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, KafkaAvroDeserializer.class.getName());
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, "coffee.consumer.sr");
         properties.put(KafkaAvroDeserializerConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://localhost:8081");
+
+        // If you're commenting out below line, then consumer need to treat this as GenericRecord
         properties.put(KafkaAvroDeserializerConfig.SPECIFIC_AVRO_READER_CONFIG, true);
 
         KafkaConsumer<String, CoffeeOrder> consumer = new KafkaConsumer<>(properties);
