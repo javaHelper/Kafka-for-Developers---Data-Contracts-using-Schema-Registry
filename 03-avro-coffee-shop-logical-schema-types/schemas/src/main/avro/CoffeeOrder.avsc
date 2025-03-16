@@ -32,6 +32,13 @@
       }
     },
     {
+      "name": "ordered_time",
+      "type": {
+        "type": "long",
+        "logicalType": "timestamp-millis"
+      }
+    },
+    {
       "name": "status",
       "type": "string",
       "default": "NEW"

@@ -18,6 +18,15 @@
     {
       "name":"quantity",
       "type": "int"
+    },
+    {
+      "name":"cost",
+      "type": {
+        "type": "bytes",
+        "logicalType": "decimal",
+        "precision": 3,
+        "scale": 2
+      }
     }
   ]
 }

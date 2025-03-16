@@ -16,7 +16,8 @@
     {
       "name": "Caffe Latte",
       "size": "MEDIUM",
-      "quantity": 1
+      "quantity": 1,
+      "cost": 3.99
     }
   ],
   "ordered_time": "2022-06-16T18:40:55.472",

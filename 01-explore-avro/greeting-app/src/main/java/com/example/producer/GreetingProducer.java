@@ -29,8 +29,7 @@ public class GreetingProducer {
 
         byte[] value = greeting.toByteBuffer().array();
 
-        ProducerRecord<String, byte[]> producerRecord =
-                new ProducerRecord<>(GREETING_TOPIC, value);
+        ProducerRecord<String, byte[]> producerRecord = new ProducerRecord<>(GREETING_TOPIC, value);
         var recordMetaData = producer.send(producerRecord).get();
         log.info("recordMetaData :{} ", recordMetaData);
 

@@ -1,27 +1,27 @@
 {
-  "name":"Address",
+  "name": "Address",
   "namespace": "com.learnavro.domain.generated",
   "type": "record",
   "fields": [
     {
-      "name":"addressLine1",
+      "name": "addressLine1",
       "type": "string"
     },
     {
-      "name":"city",
+      "name": "city",
       "type": "string"
     },
     {
-      "name":"state_province",
+      "name": "state_province",
       "type": "string"
     },
     {
-      "name":"country",
+      "name": "country",
       "type": "string",
       "default": "USA"
     },
     {
-      "name":"zip",
+      "name": "zip",
       "type": "string"
     }
   ]

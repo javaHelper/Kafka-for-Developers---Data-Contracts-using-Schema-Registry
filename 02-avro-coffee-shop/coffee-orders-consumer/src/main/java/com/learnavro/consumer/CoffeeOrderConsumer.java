@@ -27,7 +27,7 @@ public class CoffeeOrderConsumer {
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ByteArrayDeserializer.class.getName());
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, "coffee.consumer");
 
-        KafkaConsumer<String, byte[]> consumer = new KafkaConsumer<String, byte[]>(properties);
+        KafkaConsumer<String, byte[]> consumer = new KafkaConsumer<>(properties);
         consumer.subscribe(Collections.singletonList(COFFEE_ORDERS));
         log.info("Consumer Started");
 

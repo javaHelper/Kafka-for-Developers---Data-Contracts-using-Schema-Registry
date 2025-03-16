@@ -13,6 +13,9 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.Collections;
 import java.util.Properties;
 
@@ -27,7 +30,7 @@ public class CoffeeOrderConsumer {
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ByteArrayDeserializer.class.getName());
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, "coffee.consumer");
 
-        KafkaConsumer<String, byte[]> consumer = new KafkaConsumer<String, byte[]>(properties);
+        KafkaConsumer<String, byte[]> consumer = new KafkaConsumer<>(properties);
         consumer.subscribe(Collections.singletonList(COFFEE_ORDERS));
         log.info("Consumer Started");
 
@@ -37,6 +40,10 @@ public class CoffeeOrderConsumer {
                 try {
                     CoffeeOrder coffeeOrder = CoffeeOrder(record.value());
                     log.info("Consumed Message , key : {} , value : {}", record.key(), coffeeOrder.toString());
+                    
+                    LocalDateTime utcDateTime = LocalDateTime.ofInstant(coffeeOrder.getOrderedTime(), ZoneOffset.UTC);
+                    LocalDateTime cstDateTime = LocalDateTime.ofInstant(coffeeOrder.getOrderedTime(), ZoneId.of("America/Chicago"));
+					log.info("utcDateTime: {}, cstDateTime: {}", utcDateTime, cstDateTime);
                 } catch (Exception e) {
                     log.error("Exception is : {} ", e.getMessage(), e);
                 }

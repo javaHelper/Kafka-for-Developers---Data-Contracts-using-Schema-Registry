@@ -3,6 +3,8 @@ package com.learnavro.util;
 import com.github.javafaker.Faker;
 import com.learnavro.domain.generated.*;
 
+import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.List;
 import java.util.Random;
 
@@ -15,6 +17,7 @@ public class CoffeeOrderUtil {
                 .setName(FAKER.name().fullName())
                 .setStore(generateStore())
                 .setOrderLineItems(generateOrderLineItems())
+                .setOrderedTime(Instant.now())
                 .setStatus("NEW")
                 .build();
     }
@@ -25,6 +28,7 @@ public class CoffeeOrderUtil {
                 .setName("Caffe Latte")
                 .setQuantity(1)
                 .setSize(Size.MEDIUM)
+                .setCost(BigDecimal.valueOf(3.99))
                 .build();
 
         return List.of(orderLineItem);

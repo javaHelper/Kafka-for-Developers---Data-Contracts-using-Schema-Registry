@@ -60,6 +60,7 @@
                                 <import>${project.basedir}/src/main/avro/Store.avsc</import>
                                 <import>${project.basedir}/src/main/avro/OrderLineItem.avsc</import>
                             </imports>
+                            <enableDecimalLogicalType>true</enableDecimalLogicalType>
                         </configuration>
                     </execution>
                 </executions>
