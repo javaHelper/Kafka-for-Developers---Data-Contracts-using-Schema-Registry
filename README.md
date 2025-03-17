@@ -71,6 +71,7 @@ version: '3.6'
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.1.0
+    platform: linux/amd64  # Add this line
     hostname: zookeeper
     container_name: zookeeper
     ports:
@@ -81,6 +82,7 @@ services:
 
   broker:
     image: confluentinc/cp-server:7.1.0
+    platform: linux/amd64  # Add this line
     hostname: broker
     container_name: broker
     depends_on:
@@ -110,6 +112,7 @@ services:
 
   schema-registry:
      image: confluentinc/cp-schema-registry:7.1.0
+     platform: linux/amd64  # Add this line
      hostname: schema-registry
      container_name: schema-registry
      depends_on:
@@ -120,5 +123,6 @@ services:
        SCHEMA_REGISTRY_HOST_NAME: schema-registry
        SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: 'broker:29092'
        SCHEMA_REGISTRY_LISTENERS: http://0.0.0.0:8081
+
 
 ```
