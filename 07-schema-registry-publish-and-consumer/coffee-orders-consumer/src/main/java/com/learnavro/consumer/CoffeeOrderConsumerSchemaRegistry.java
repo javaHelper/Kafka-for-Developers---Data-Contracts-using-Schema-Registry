@@ -32,27 +32,28 @@ public class CoffeeOrderConsumerSchemaRegistry {
         // If you're commenting out below line, then consumer need to treat this as GenericRecord
         properties.put(KafkaAvroDeserializerConfig.SPECIFIC_AVRO_READER_CONFIG, true);
 
-        KafkaConsumer<String, CoffeeOrder> consumer = new KafkaConsumer<>(properties);
-        consumer.subscribe(Collections.singletonList(COFFEE_ORDERS));
-        log.info("Consumer Started");
+        try (KafkaConsumer<String, CoffeeOrder> consumer = new KafkaConsumer<>(properties)) {
+			consumer.subscribe(Collections.singletonList(COFFEE_ORDERS));
+			log.info("Consumer Started");
 
-        while(true){
-            ConsumerRecords<String,CoffeeOrder> records  = consumer.poll(Duration.ofMillis(100));
+			while(true){
+			    ConsumerRecords<String,CoffeeOrder> records  = consumer.poll(Duration.ofMillis(100));
 
-            for (ConsumerRecord<String, CoffeeOrder> record : records){
-                try{
-                    log.info("Consumed Message , key : {} , value : {}", record.key(), record.value().toString());
-                    var coffeeOrder = record.value();
+			    for (ConsumerRecord<String, CoffeeOrder> record : records){
+			        try{
+			            log.info("Consumed Message , key : {} , value : {}", record.key(), record.value().toString());
+			            var coffeeOrder = record.value();
 
-                    //ZoneId.SHORT_IDS
-                    var utcDateTime = LocalDateTime.ofInstant(coffeeOrder.getOrderedTime(), ZoneOffset.UTC);
-                    var cstDateTime = LocalDateTime.ofInstant(coffeeOrder.getOrderedTime(), ZoneId.of("America/Chicago"));
-                    log.info("utcDateTime: {} , cstDateTime : {} ",utcDateTime,  cstDateTime);
+			            //ZoneId.SHORT_IDS
+			            var utcDateTime = LocalDateTime.ofInstant(coffeeOrder.getOrderedTime(), ZoneOffset.UTC);
+			            var cstDateTime = LocalDateTime.ofInstant(coffeeOrder.getOrderedTime(), ZoneId.of("America/Chicago"));
+			            log.info("utcDateTime: {} , cstDateTime : {} ",utcDateTime,  cstDateTime);
 
-                }catch (Exception e){
-                    log.error("Exception is : {} ", e.getMessage(), e);
-                }
-            }
-        }
+			        }catch (Exception e){
+			            log.error("Exception is : {} ", e.getMessage(), e);
+			        }
+			    }
+			}
+		}
     }
 }

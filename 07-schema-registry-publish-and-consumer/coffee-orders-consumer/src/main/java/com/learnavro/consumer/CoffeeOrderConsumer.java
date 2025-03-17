@@ -30,25 +30,26 @@ public class CoffeeOrderConsumer {
         properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ByteArrayDeserializer.class.getName());
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, "coffee.logical.schema.consumer");
 
-        KafkaConsumer<String, byte[]> consumer = new KafkaConsumer<String, byte[]>(properties);
-        consumer.subscribe(Collections.singletonList(COFFEE_ORDERS));
-        log.info("Consumer Started");
+        try (KafkaConsumer<String, byte[]> consumer = new KafkaConsumer<String, byte[]>(properties)) {
+			consumer.subscribe(Collections.singletonList(COFFEE_ORDERS));
+			log.info("Consumer Started");
 
-        while (true) {
-            ConsumerRecords<String, byte[]> records = consumer.poll(Duration.ofMillis(100));
-            for (ConsumerRecord<String, byte[]> record : records) {
-                try {
-                    CoffeeOrder coffeeOrder = CoffeeOrder(record.value());
-                    log.info("## Consumed Message , key : {} , value : {}", record.key(), coffeeOrder.toString());
+			while (true) {
+			    ConsumerRecords<String, byte[]> records = consumer.poll(Duration.ofMillis(100));
+			    for (ConsumerRecord<String, byte[]> record : records) {
+			        try {
+			            CoffeeOrder coffeeOrder = CoffeeOrder(record.value());
+			            log.info("## Consumed Message , key : {} , value : {}", record.key(), coffeeOrder.toString());
 
-                    LocalDateTime utcDateTime = LocalDateTime.ofInstant(coffeeOrder.getOrderedTime(), ZoneOffset.UTC);
-                    LocalDateTime cstDateTime = LocalDateTime.ofInstant(coffeeOrder.getOrderedTime(), ZoneId.of("America/Chicago"));
-                    log.info("## utcDateTime : {}, cstDateTime : {}", utcDateTime, cstDateTime);
-                } catch (Exception e) {
-                    log.error("Exception is : {} ", e.getMessage(), e);
-                }
-            }
-        }
+			            LocalDateTime utcDateTime = LocalDateTime.ofInstant(coffeeOrder.getOrderedTime(), ZoneOffset.UTC);
+			            LocalDateTime cstDateTime = LocalDateTime.ofInstant(coffeeOrder.getOrderedTime(), ZoneId.of("America/Chicago"));
+			            log.info("## utcDateTime : {}, cstDateTime : {}", utcDateTime, cstDateTime);
+			        } catch (Exception e) {
+			            log.error("Exception is : {} ", e.getMessage(), e);
+			        }
+			    }
+			}
+		}
     }
 
     private static CoffeeOrder CoffeeOrder(byte[] array) throws IOException {

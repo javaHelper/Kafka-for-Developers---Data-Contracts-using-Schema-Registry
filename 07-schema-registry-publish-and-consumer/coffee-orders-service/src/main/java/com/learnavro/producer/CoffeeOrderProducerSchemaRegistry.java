@@ -27,14 +27,14 @@ public class CoffeeOrderProducerSchemaRegistry {
         // of CoffeeOrder
         properties.put(KafkaAvroSerializerConfig.SCHEMA_REGISTRY_URL_CONFIG, "http://localhost:8081");
 
-        KafkaProducer<String, CoffeeOrder> producer = new KafkaProducer<>(properties);
+        try (KafkaProducer<String, CoffeeOrder> producer = new KafkaProducer<>(properties)) {
+			CoffeeOrder coffeeOrder = CoffeeOrderUtil.buildNewCoffeeOrder();
 
-        CoffeeOrder coffeeOrder = CoffeeOrderUtil.buildNewCoffeeOrder();
+			ProducerRecord<String, CoffeeOrder> producerRecord =
+			        new ProducerRecord<>(COFFEE_ORDERS, coffeeOrder);
 
-        ProducerRecord<String, CoffeeOrder> producerRecord =
-                new ProducerRecord<>(COFFEE_ORDERS, coffeeOrder);
-
-        var recordMetaData = producer.send(producerRecord).get();
-        log.info("recordMetaData : {}", recordMetaData);
+			var recordMetaData = producer.send(producerRecord).get();
+			log.info("recordMetaData : {}", recordMetaData);
+		}
     }
 }
