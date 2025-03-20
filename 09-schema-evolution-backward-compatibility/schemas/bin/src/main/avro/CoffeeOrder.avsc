@@ -17,10 +17,10 @@
       "default": "",
       "doc": "Optional Field represents the nick name of the user"
     },
-    {
-      "name": "store",
-      "type": "Store"
-    },
+//    {
+//      "name": "store",
+//      "type": "Store"
+//    },
     {
       "name": "orderLineItems",
       "type": {
